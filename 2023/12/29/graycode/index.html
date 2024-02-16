@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LeetCode 89 Gray Code | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="LeetCode 89: Gray CodeGray Code is a form of binary that use different method of incrementing from one number to next. in Gray Code, there is only 1 bit change from one number to the next. This format">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode 89 Gray Code">
+<meta property="og:url" content="http://example.com/2023/12/29/graycode/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="LeetCode 89: Gray CodeGray Code is a form of binary that use different method of incrementing from one number to next. in Gray Code, there is only 1 bit change from one number to the next. This format">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-12-29T08:58:22.363Z">
+<meta property="article:modified_time" content="2023-12-29T09:00:24.041Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-graycode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/12/29/graycode/" class="article-date">
+  <time class="dt-published" datetime="2023-12-29T08:58:22.363Z" itemprop="datePublished">2023-12-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LeetCode 89 Gray Code
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="LeetCode-89-Gray-Code"><a href="#LeetCode-89-Gray-Code" class="headerlink" title="LeetCode 89: Gray Code"></a>LeetCode 89: Gray Code</h2><p>Gray Code is <strong>a form of binary</strong> that use different method of incrementing from one number to next. in Gray Code, there is only 1 bit change from one number to the next. This format give us a way to do error checking: if there is more than 1 bit changed, something must be incorrect.<br>To convert from binary to Gray Code, we keep the most significant digit in binary and check for each digit, whether their previous digit is the same. If same, we put 0 in same index of gray code, else, we put 1. </p>
+<table>
+<thead>
+<tr>
+<th>Decimal</th>
+<th>Binary</th>
+<th>Gray Code</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0000</td>
+<td>0000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0001</td>
+<td>0001</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0010</td>
+<td>0011</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0011</td>
+<td>0010</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0100</td>
+<td>0110</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0101</td>
+<td>0111</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0110</td>
+<td>0101</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0111</td>
+<td>0100</td>
+</tr>
+</tbody></table>
+<p>we could also recover binary from gray code easily following reverse logic. To convert from decimal to Gray Code, we could left shift the integer once. for example if we want to convert integer <strong>n</strong>, we can do <strong>n&gt;&gt;1</strong> so that the left most digit in n is now 0. we then do <strong>XOR</strong> of n&gt;&gt;1 with n. so the formula is $$(n&gt;&gt;1 ) \oplus{ n}$$</p>
+<p>To put it into code, if we want to generate n-bit gray code sequence, we can represent decimal number from 0 to (2^n-1)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span>  <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">grayCode</span><span class="params">(<span class="type">int</span>  n)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> length = <span class="built_in">pow</span>(<span class="number">2</span>,n);</span><br><span class="line">	vector&lt;<span class="type">int</span>&gt; result;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;length; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		result.<span class="built_in">push_back</span>(i^(i&gt;&gt;<span class="number">1</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/12/29/graycode/" data-id="clqqeli210000kzihgjnt9d8i" data-title="LeetCode 89 Gray Code" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/02/15/perceptrons/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/12/29/subset%20II/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode 90 Subset II</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/02/15/perceptrons/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/graycode/">LeetCode 89 Gray Code</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/subset%20II/">LeetCode 90 Subset II</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/28/GoogLeNet/">GoogleNet Practice</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/Why%20CNN/">Why switch to CNN from MLP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>GoogleNet Practice | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="GoogleNetthe main advantage of googleNet is that is reduce the number of parameter needed by using inception blocks. Inception blocks use fewer parameter compare to using bigger convolution kernel. st">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GoogleNet Practice">
+<meta property="og:url" content="http://example.com/2023/12/28/GoogLeNet/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="GoogleNetthe main advantage of googleNet is that is reduce the number of parameter needed by using inception blocks. Inception blocks use fewer parameter compare to using bigger convolution kernel. st">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-12-28T09:05:10.097Z">
+<meta property="article:modified_time" content="2023-12-28T09:05:51.597Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-GoogLeNet" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/12/28/GoogLeNet/" class="article-date">
+  <time class="dt-published" datetime="2023-12-28T09:05:10.097Z" itemprop="datePublished">2023-12-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      GoogleNet Practice
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GoogleNet"><a href="#GoogleNet" class="headerlink" title="GoogleNet"></a>GoogleNet</h1><p>the main advantage of googleNet is that is reduce the number of parameter needed by using inception blocks. Inception blocks use fewer parameter compare to using bigger convolution kernel. stacking inception blocks allow us to make network deeper </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span>  <span class="title class_">Inception1</span>(nn.Module):</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">__init__</span>(<span class="params">self, c1,c2,c3,c4,**kwargs</span>):</span><br><span class="line">		<span class="built_in">super</span>(Inception1, self).__init__(**kwargs)</span><br><span class="line">		<span class="comment"># Branch 1</span></span><br><span class="line">		self.b1_1 = nn.LazyConv2d(out_channels=c1, kernel_size=<span class="number">1</span>)</span><br><span class="line">		<span class="comment"># Branch 2</span></span><br><span class="line">		self.b2_1 = nn.LazyConv2d(out_channels=c2[<span class="number">0</span>], kernel_size=<span class="number">1</span>)</span><br><span class="line">		self.b2_2 = nn.LazyConv2d(out_channels=c2[<span class="number">1</span>], kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>)</span><br><span class="line">		<span class="comment"># Branch 3</span></span><br><span class="line">		self.b3_1 = nn.LazyConv2d(out_channels=c3[<span class="number">0</span>], kernel_size = <span class="number">1</span>)</span><br><span class="line">		self.b3_2 = nn.LazyConv2d(out_channels=c3[<span class="number">1</span>], kernel_size = <span class="number">5</span>, padding = <span class="number">2</span>)</span><br><span class="line">		<span class="comment"># Branch 4</span></span><br><span class="line">		<span class="comment"># we need to specify the stride for max pool is 1 here</span></span><br><span class="line">		<span class="comment"># else it would get default to kernel_size to prevent overlapping</span></span><br><span class="line">		self.b4_1 = nn.MaxPool2d(kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>, stride=<span class="number">1</span>)</span><br><span class="line">		self.b4_2 = nn.LazyConv2d(out_channels=c4, kernel_size=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">		b1 = F.relu(self.b1_1(x))</span><br><span class="line">		b2 = F.relu(self.b2_2(F.relu(self.b2_1(x))))</span><br><span class="line">		b3 = F.relu(self.b3_2(F.relu(self.b3_1(x))))</span><br><span class="line">		b4 = F.relu(self.b4_2(self.b4_1(x)))</span><br><span class="line">		<span class="keyword">return</span> torch.cat((b1, b2, b3, b4), dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span>  <span class="title class_">GoogleNet1</span>(d2l.Classifier):</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">b1</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> nn.Sequential(</span><br><span class="line">		nn.LazyConv2d(<span class="number">64</span>, kernel_size=<span class="number">7</span>, stride=<span class="number">2</span>, padding=<span class="number">3</span>), nn.ReLU(),</span><br><span class="line">		nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">b2</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> nn.Sequential(</span><br><span class="line">		nn.LazyConv2d(<span class="number">64</span>, kernel_size=<span class="number">1</span>), nn.ReLU(),</span><br><span class="line">		nn.LazyConv2d(<span class="number">192</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>),nn.ReLU(),</span><br><span class="line">		nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">b3</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> nn.Sequential(</span><br><span class="line">		Inception1(<span class="number">64</span>,(<span class="number">96</span>,<span class="number">128</span>),(<span class="number">16</span>,<span class="number">32</span>), <span class="number">32</span>),</span><br><span class="line">		Inception1(<span class="number">128</span>, (<span class="number">128</span>,<span class="number">92</span>), (<span class="number">32</span>,<span class="number">96</span>), <span class="number">64</span>),</span><br><span class="line">		nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>))</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">b4</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> nn.Sequential(</span><br><span class="line">		Inception1(<span class="number">192</span>, (<span class="number">96</span>, <span class="number">208</span>), (<span class="number">16</span>, <span class="number">48</span>), <span class="number">64</span>),</span><br><span class="line">		Inception1(<span class="number">160</span>, (<span class="number">112</span>, <span class="number">224</span>), (<span class="number">24</span>, <span class="number">64</span>), <span class="number">64</span>),</span><br><span class="line">		Inception1(<span class="number">128</span>, (<span class="number">128</span>, <span class="number">256</span>), (<span class="number">24</span>, <span class="number">64</span>), <span class="number">64</span>),</span><br><span class="line">		Inception1(<span class="number">112</span>, (<span class="number">144</span>, <span class="number">288</span>), (<span class="number">32</span>, <span class="number">64</span>), <span class="number">64</span>),</span><br><span class="line">		Inception1(<span class="number">256</span>, (<span class="number">160</span>, <span class="number">320</span>), (<span class="number">32</span>, <span class="number">128</span>), <span class="number">128</span>),</span><br><span class="line">		nn.MaxPool2d(kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>)</span><br><span class="line">	)</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">b5</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="keyword">return</span> nn.Sequential(</span><br><span class="line">		Inception1(<span class="number">256</span>, (<span class="number">160</span>, <span class="number">320</span>), (<span class="number">32</span>, <span class="number">128</span>), <span class="number">128</span>),</span><br><span class="line">		Inception1(<span class="number">384</span>, (<span class="number">192</span>, <span class="number">384</span>), (<span class="number">48</span>, <span class="number">128</span>), <span class="number">128</span>),</span><br><span class="line">		nn.AdaptiveAvgPool2d((<span class="number">1</span>,<span class="number">1</span>)), nn.Flatten())	</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">__init__</span>(<span class="params">self, lr=<span class="number">0.1</span>, num_classes=<span class="number">10</span></span>):</span><br><span class="line">		<span class="built_in">super</span>(GoogleNet1, self).__init__()</span><br><span class="line">		self.save_hyperparameters()</span><br><span class="line">		self.net = nn.Sequential(self.b1(), self.b2(), self.b3(), self.b4(),</span><br><span class="line">		self.b5(), nn.LazyLinear(num_classes))</span><br><span class="line">		self.net.apply(d2l.init_cnn)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = GoogleNet1().layer_summary((<span class="number">1</span>, <span class="number">1</span>, <span class="number">96</span>, <span class="number">96</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">model = GoogleNet1(lr=<span class="number">0.01</span>)</span><br><span class="line">trainer = d2l.Trainer(max_epochs=<span class="number">10</span>, num_gpus=<span class="number">1</span>)</span><br><span class="line">data = d2l.FashionMNIST(batch_size=<span class="number">128</span>, resize=(<span class="number">96</span>, <span class="number">96</span>))</span><br><span class="line">model.apply_init([<span class="built_in">next</span>(<span class="built_in">iter</span>(data.get_dataloader(<span class="literal">True</span>)))[<span class="number">0</span>]], d2l.init_cnn)</span><br><span class="line">trainer.fit(model, data)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/12/28/GoogLeNet/" data-id="clqozcxcy0000b0ih5kgt33yy" data-title="GoogleNet Practice" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/12/29/subset%20II/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          LeetCode 90 Subset II
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/12/27/Why%20CNN/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Why switch to CNN from MLP</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/02/15/perceptrons/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/graycode/">LeetCode 89 Gray Code</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/subset%20II/">LeetCode 90 Subset II</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/28/GoogLeNet/">GoogleNet Practice</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/Why%20CNN/">Why switch to CNN from MLP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Why switch to CNN from MLP | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Why switch to Convolution from MLPRegular Neural Net with many layers of fully connected neurons don’t scale well with full image. MLP has input layer, many hidden layers, and output layers. the neuro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why switch to CNN from MLP">
+<meta property="og:url" content="http://example.com/2023/12/27/Why%20CNN/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Why switch to Convolution from MLPRegular Neural Net with many layers of fully connected neurons don’t scale well with full image. MLP has input layer, many hidden layers, and output layers. the neuro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cs231n.github.io/assets/nn1/neural_net2.jpeg">
+<meta property="og:image" content="https://cs231n.github.io/assets/cnn/cnn.jpeg">
+<meta property="og:image" content="https://cs231n.github.io/assets/cnn/depthcol.jpeg">
+<meta property="og:image" content="https://cs231n.github.io/assets/cnn/stride.jpeg">
+<meta property="article:published_time" content="2023-12-27T09:45:09.741Z">
+<meta property="article:modified_time" content="2023-12-27T09:47:18.721Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cs231n.github.io/assets/nn1/neural_net2.jpeg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Why CNN" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/12/27/Why%20CNN/" class="article-date">
+  <time class="dt-published" datetime="2023-12-27T09:45:09.741Z" itemprop="datePublished">2023-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Why switch to CNN from MLP
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Why-switch-to-Convolution-from-MLP"><a href="#Why-switch-to-Convolution-from-MLP" class="headerlink" title="Why switch to Convolution from MLP"></a>Why switch to Convolution from MLP</h2><p><strong>Regular Neural Net</strong> with many layers of fully connected neurons don’t scale well with full image. MLP has input layer, many hidden layers, and output layers. the neurons within a layer is independent of each other and fully connected to all neurons from its previous layer and next layer. <img src="https://cs231n.github.io/assets/nn1/neural_net2.jpeg" alt="MLP structure"> </p>
+<p>We can see that MLP doesn’t scale well with full image since we need to have weights for all features. for 32 * 32 <em>3 image, we would have 32</em>32<em>3 &#x3D; 3072 weights in one layer. larger image size like 200</em>200<em>3 would lead to 200</em>200*3 &#x3D; 120,000 weights. with many hidden layers, this amount would increase more. <strong>full connectivity is wasteful and would lead to overfitting quickly</strong></p>
+<h2 id="CNN-design"><a href="#CNN-design" class="headerlink" title="CNN design"></a>CNN design</h2><p>In CNN, neurons in a layer would only be connected to a small region of the layer before it. This region size is controlled by the kernel we use. the Idea behind it is that for image, each object in image should be more related to the adjacent pixels. hence we use a n*n kernel. Another reason is that the same object moving or rotating in the image shouldn’t change the label of it. So that is why the peripheral pixel is important and should be consistent for each labels. <img src="https://cs231n.github.io/assets/cnn/cnn.jpeg" alt="CNN structure"> </p>
+<h3 id="Layers-of-CNN"><a href="#Layers-of-CNN" class="headerlink" title="Layers of CNN"></a>Layers of CNN</h3><p>there are 3 main layers for CNN. <strong>Convolutional layer</strong>, <strong>Pooling layer</strong>, and <strong>Fully-connected layer</strong>(same as in MLP).<br>The Convolutional layers contains parameters that can be trained: the value in kernel. the Pooling layer and activation layer don’t have parameters to train.<br><strong>Summary</strong></p>
+<ol>
+<li>For CNN, the input is 3D volume of image and the output is 3D volume of image</li>
+<li>Conv layer has trainable parameters. Conv, Pooling, FC layer have hyper-parameters. activation layer don’t have any parameters. </li>
+<li>the number of parameter for each layer is equal to input channel size * output channel size * kernel width * kernel height</li>
+<li>we switch from fully connected to kernel view because for high dimensional input like images, it is infeasible (parameter explode) to train so many weights. so we capture the most valuable information through using kernel to extract a local region of the input volume.</li>
+</ol>
+<h3 id="Local-Connectivity"><a href="#Local-Connectivity" class="headerlink" title="Local Connectivity"></a>Local Connectivity</h3><p>convolutional kernel size is equivalent to <strong>receptive field</strong>. filter all have depth since the input is 3D. the depth is <strong>always equal to depth of input volume</strong>. for 32<em>32</em>3 image, and filter size of 5<em>5. the depth of the filter <strong>must</strong> be 3. so the filter is 5</em>5<em>3. the amount of parameter for a single filter is 5</em>5<em>3 &#x3D; 75 +1 bias &#x3D; 76 trainable parameters. if the input is 16</em>16<em>20 and we use 3</em>3 filter, the depth must be 20. filter is 3<em>3</em>20. parameter &#x3D; 3<em>3</em>20 &#x3D; 180. <strong>The connectivity is local in 2D space (e.g. 3*3) but must be full along input depth(channel) which is 20 in the example</strong> notice that in the illustration below, there are 5 neurons in the same depth dimension. these 5 neurons have the same receptive field but they essentially have different filters. so the weights associated with them are different.<br><img src="https://cs231n.github.io/assets/cnn/depthcol.jpeg" alt="Filter illustration"></p>
+<h3 id="Spatial-Arrangement"><a href="#Spatial-Arrangement" class="headerlink" title="Spatial Arrangement"></a>Spatial Arrangement</h3><p>the hyper-parameters (parameters that are not trained using gradient descent) are <strong>depth (output-channel size), stride, and padding</strong></p>
+<ol>
+<li>the depth is the number of filter we use. each filter could be learning different information from the input. for example, in first convolutional layer, neuron that look at the same receptive field could be extracting different information from it. some may take information of oriented edges, some looking color etc. we refer to neuron that look at the same region as <strong>depth column</strong></li>
+<li>stride is how much we move the filter each time. if the stride is the same as filter size, there is no overlap between the receptive field that each time the filter is looking at. if stride is smaller than filter size, then there is overlap. </li>
+<li>sometimes we pad the input with 0 around all edges. the padding is commonly chosen so we preserve the original height and width of the input.</li>
+</ol>
+<p>The formula for input size after convolution is  $$\frac{InputWidth-Kernel Width+2Padding}{Stride} + 1$$. </p>
+<p>Notice when padding is (kernel size -1)&#x2F;2 , we preserve the original width and height when the stride is 1. </p>
+<p>The stride must be designed such that it only give us integer after we divide by it. Else it is invalid.<br><img src="https://cs231n.github.io/assets/cnn/stride.jpeg" alt="Illustration of Stride"></p>
+<h3 id="Parameter-Sharing-Assumption"><a href="#Parameter-Sharing-Assumption" class="headerlink" title="Parameter Sharing Assumption"></a>Parameter Sharing Assumption</h3><p>In AlexNet, we know that our 227 * 277 <em>3 input have receptive field of 11, stride of 4 and no padding of zero. Calculate the output, we get that in our first convolutional layer, we should have ((227-11)&#x2F;4) + 1 &#x3D; 55 as output width and height. since we are using 96 kernel, our output volume is 55</em>55<em>96. each of the neuron in this 55</em>55<em>96 output is connected to a 11</em>11<em>3 region in input. So, together we would have 55</em>55<em>96</em>11<em>11</em>3 &#x3D; 105,705,600 parameters. The magnitude of parameter seems to be exploding already in the very first convolutional layer. To reduce the parameters, needed, we introduce the assumption of  <strong>parameter sharing</strong>.  The assumption here is that if one feature is useful to compute at some spatial position, then it should also be useful to compute at a different position. under parameter sharing the 55*55 neuron in each of the 96 depth slices will be using same parameters. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/12/27/Why%20CNN/" data-id="clqnlekyk00002eih5epr3uid" data-title="Why switch to CNN from MLP" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/12/28/GoogLeNet/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          GoogleNet Practice
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/12/21/AlexNet/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">AlexNet Practice</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/02/15/perceptrons/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/graycode/">LeetCode 89 Gray Code</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/subset%20II/">LeetCode 90 Subset II</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/28/GoogLeNet/">GoogleNet Practice</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/Why%20CNN/">Why switch to CNN from MLP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

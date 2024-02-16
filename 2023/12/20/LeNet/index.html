@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>LeNet Practice | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="LeNetsupervised learning. at high level, LeNet-5 has convolutional encoder consist of 2 convolutional layers and 3 fully connected layers (MLP of 3 layers). LeNet use average pooling and tanh  activat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeNet Practice">
+<meta property="og:url" content="http://example.com/2023/12/20/LeNet/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="LeNetsupervised learning. at high level, LeNet-5 has convolutional encoder consist of 2 convolutional layers and 3 fully connected layers (MLP of 3 layers). LeNet use average pooling and tanh  activat">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-12-21T03:08:02.221Z">
+<meta property="article:modified_time" content="2023-12-21T06:58:15.698Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-LeNet" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/12/20/LeNet/" class="article-date">
+  <time class="dt-published" datetime="2023-12-21T03:08:02.221Z" itemprop="datePublished">2023-12-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      LeNet Practice
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="LeNet"><a href="#LeNet" class="headerlink" title="LeNet"></a>LeNet</h1><p>supervised learning. at high level, LeNet-5 has convolutional encoder consist of 2 convolutional layers and 3 fully connected layers (MLP of 3 layers). LeNet use <strong>average pooling</strong> and <strong>tanh</strong>  activation function.  we use <strong>Xavier initialization</strong> to make sure the mean and variance of output of fully connected layer is the same as the mean and variance of input. </p>
+<h2 id="Initialize-CNN-using-Uniform-Xavier-Initialization"><a href="#Initialize-CNN-using-Uniform-Xavier-Initialization" class="headerlink" title="Initialize CNN using Uniform Xavier Initialization"></a>Initialize CNN using Uniform Xavier Initialization</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span>  <span class="title function_">initialize_cnn</span>(<span class="params">module</span>):</span><br><span class="line"><span class="keyword">if</span>  <span class="built_in">type</span>(module)==nn.Linear <span class="keyword">or</span>  <span class="built_in">type</span>(module)==nn.Conv2d:</span><br><span class="line">	nn.init.xavier_uniform_(module.weight)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Create-LeNet-with-MaxPool-and-ReLU"><a href="#Create-LeNet-with-MaxPool-and-ReLU" class="headerlink" title="Create LeNet with MaxPool and ReLU"></a>Create LeNet with MaxPool and ReLU</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span>  <span class="title class_">LeNet1</span>(d2l.Classifier):</span><br><span class="line">	<span class="keyword">def</span>  <span class="title function_">__init__</span>(<span class="params">self, lr=<span class="number">0.01</span>, num_classes=<span class="number">10</span></span>):</span><br><span class="line">		<span class="built_in">super</span>().__init__()</span><br><span class="line">		self.save_hyperparameters()</span><br><span class="line">		self.net = nn.Sequential(</span><br><span class="line">			nn.LazyConv2d(out_channels=<span class="number">6</span>,</span><br><span class="line">			kernel_size=<span class="number">5</span>,padding=<span class="number">2</span>),</span><br><span class="line">			nn.ReLU(),</span><br><span class="line">			nn.MaxPool2d(kernel_size=<span class="number">2</span>,stride=<span class="number">2</span>),</span><br><span class="line">			nn.LazyConv2d(out_channels=<span class="number">16</span>,kernel_size=<span class="number">5</span>),</span><br><span class="line">			nn.ReLU(),</span><br><span class="line">			nn.MaxPool2d(kernel_size=<span class="number">2</span>, stride=<span class="number">2</span>),</span><br><span class="line">			nn.Flatten(),</span><br><span class="line">			nn.LazyLinear(<span class="number">120</span>),</span><br><span class="line">			nn.ReLU(),</span><br><span class="line">			nn.LazyLinear(<span class="number">84</span>),</span><br><span class="line">			nn.ReLU(),</span><br><span class="line">			nn.LazyLinear(num_classes))</span><br></pre></td></tr></table></figure>
+
+<h2 id="Print-Layer-Summary"><a href="#Print-Layer-Summary" class="headerlink" title="Print Layer Summary"></a>Print Layer Summary</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span>  <span class="title function_">layer_summary1</span>(<span class="params">self, input_shape</span>):</span><br><span class="line">	X = torch.randn(*input_shape)</span><br><span class="line">	<span class="keyword">for</span> layer <span class="keyword">in</span>  self.net:</span><br><span class="line">	X = layer(X)</span><br><span class="line">	<span class="built_in">print</span>(layer.__class__.__name__,<span class="string">&quot;output shape:\t&quot;</span>, X.shape)</span><br><span class="line">model1 = LeNet1()</span><br><span class="line">model1.layer_summary((<span class="number">1</span>,<span class="number">1</span>,<span class="number">28</span>,<span class="number">28</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">trainer = d2l.Trainer(max_epochs=<span class="number">20</span>, num_gpus=<span class="number">1</span>)</span><br><span class="line">data = d2l.FashionMNIST(batch_size=<span class="number">128</span>)</span><br><span class="line">model = LeNet1(lr=<span class="number">0.1</span>)</span><br><span class="line">model.apply_init([<span class="built_in">next</span>(<span class="built_in">iter</span>(data.get_dataloader(<span class="literal">True</span>)))[<span class="number">0</span>]], initialize_cnn)</span><br><span class="line">trainer.fit(model, data)</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/12/20/LeNet/" data-id="clqeule7r0001lmih7fpj98af" data-title="LeNet Practice" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/12/21/AlexNet/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          AlexNet Practice
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/12/16/firstBlog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">firstBlog</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/02/">February 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/12/">December 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/02/15/perceptrons/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/graycode/">LeetCode 89 Gray Code</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/29/subset%20II/">LeetCode 90 Subset II</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/28/GoogLeNet/">GoogleNet Practice</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/27/Why%20CNN/">Why switch to CNN from MLP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
